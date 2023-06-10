@@ -1,5 +1,6 @@
 package com.api.blog.entidades;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Rol {
     @Column(unique = true, nullable = false)
     private String nombre;
     
-    @OneToMany(mappedBy = "rol")
+    @OneToMany(mappedBy = "rol",cascade = CascadeType.ALL)
     Set<Usuario> usuarios = new HashSet<>();
     
 }

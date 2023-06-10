@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +16,16 @@ import lombok.Setter;
 @Getter @Setter
 @Table(name = "comentarios")
 public class Comentario extends AuditModel {
+
+    public Comentario() {
+    }
+
+    public Comentario(Long comentarioId, String descripcion, Usuario usuario, Publicacion publicacion) {
+        this.comentarioId = comentarioId;
+        this.descripcion = descripcion;
+        this.usuario = usuario;
+        this.publicacion = publicacion;
+    }
     
     private static final long serialVersionUID = 1L;
     
@@ -24,6 +36,14 @@ public class Comentario extends AuditModel {
     
     @Lob
     @Column(unique = true, nullable = false)
-    private String contenido;
+    private String descripcion;
+    
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+    
+    @ManyToOne
+    @JoinColumn(name = "publicacion_id")
+    private Publicacion publicacion;
     
 }

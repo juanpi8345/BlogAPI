@@ -1,65 +1,68 @@
 
 package com.api.blog.entidades;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import org.antlr.v4.runtime.misc.NotNull;
+import java.util.HashSet;
+import java.util.Set;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter
 @Table(name = "publicaciones")
-public class Publicacion {
+public class Publicacion extends AuditModel {
+
+    public Publicacion() {
+    }
+
+    public Publicacion(Long publicacioId, String titulo, String descripcion, String contenido, Usuario autor) {
+        this.publicacioId = publicacioId;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.contenido = contenido;
+        this.autor = autor;
+    }
+    
+     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "publicacion_id")
+    private Long publicacioId;
     
-    @NotNull
+    @Column(nullable = false)
     private String titulo;
     
-    @NotNull
+    @Column(nullable = false)
     @Lob
     private String descripcion;
     
-    @NotNull
+   @Column(nullable = false)
     @Lob
     private String contenido;
+   
+   @OneToMany(mappedBy="publicacion",cascade = CascadeType.ALL)
+   private Set<Comentario> comentarios = new HashSet<>();
+   
+   @ManyToOne
+   @JoinColumn(name = "usuario_id")
+   private Usuario autor;
+   
+   @OneToMany(mappedBy = "publicacion")
+   private Set<PublicacionCategoria> publicacionCategorias = new HashSet<>();
+   
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getContenido() {
-        return contenido;
-    }
-
-    public void setContenido(String contenido) {
-        this.contenido = contenido;
-    }
-    
-    
-    
+  
 }
