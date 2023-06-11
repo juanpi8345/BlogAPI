@@ -1,8 +1,10 @@
-
 package com.api.blog.entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.HashSet;
@@ -11,7 +13,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Table(name = "categorias")
 public class Categoria {
 
@@ -22,13 +25,15 @@ public class Categoria {
         this.categoriaId = categoriaId;
         this.nombre = nombre;
     }
-    
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "categoria_id")
     private Long categoriaId;
-    
+
     @Column(nullable = false, unique = true)
     private String nombre;
-    
-   @OneToMany(mappedBy = "categoria")
-   private Set<PublicacionCategoria> publicacionCategorias = new HashSet<>();
+
+    @OneToMany(mappedBy = "categoria")
+    private Set<PublicacionCategoria> publicacionCategorias = new HashSet<>();
 }

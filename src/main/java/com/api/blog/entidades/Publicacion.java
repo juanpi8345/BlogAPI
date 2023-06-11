@@ -27,8 +27,8 @@ public class Publicacion extends AuditModel {
     public Publicacion() {
     }
 
-    public Publicacion(Long publicacioId, String titulo, String descripcion, String contenido, Usuario autor) {
-        this.publicacioId = publicacioId;
+    public Publicacion(Long publicacionId, String titulo, String descripcion, String contenido, Usuario autor) {
+        this.publicacionId = publicacionId;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.contenido = contenido;
@@ -40,7 +40,7 @@ public class Publicacion extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "publicacion_id")
-    private Long publicacioId;
+    private Long publicacionId;
     
     @Column(nullable = false)
     private String titulo;
