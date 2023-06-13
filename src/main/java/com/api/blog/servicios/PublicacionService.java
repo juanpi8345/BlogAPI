@@ -6,6 +6,7 @@ import com.api.blog.excepciones.NotFoundException;
 import java.util.List;
 
 
+
 public interface PublicacionService {
     
     public List<Publicacion> obtenerPublicaciones();

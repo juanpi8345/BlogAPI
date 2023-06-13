@@ -30,17 +30,27 @@ public class PublicacionController {
     @Autowired
     private UsuarioService usuarioService;
     
+ 
+    @GetMapping("/")
+    public ResponseEntity<List<Publicacion>> obtenerPublicaciones(){
+        List<Publicacion> publicaciones =  publicacionService.obtenerPublicaciones();
+        if(!publicaciones.isEmpty()){
+            return ResponseEntity.ok(publicaciones);
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
     @GetMapping("/usuario/{usuarioId}")
-    public Set<Publicacion> obtenerPublicacionesDelUsuario(@PathVariable Long usuarioId) throws NotFoundException{
+    public ResponseEntity<Set<Publicacion>> obtenerPublicacionesDelUsuario(@PathVariable Long usuarioId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
         if(usuario != null){
-           return usuario.getPublicaciones();
+           return ResponseEntity.ok(usuario.getPublicaciones());
         }
-        return null;
+        return ResponseEntity.notFound().build();
     }
     
     @GetMapping("/usuario/{usuarioId}/{publicacionId}")
-    public ResponseEntity<Publicacion> obtenerPublicacion(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException{
+    public ResponseEntity<Publicacion> obtenerPublicacionDelUsuario(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
         Set<Publicacion> publicacionesUsuario = usuario.getPublicaciones();
         

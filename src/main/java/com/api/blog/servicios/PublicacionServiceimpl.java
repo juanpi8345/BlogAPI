@@ -28,7 +28,7 @@ public class PublicacionServiceimpl implements PublicacionService{
     public List<Publicacion> obtenerPublicacionesPorAutor(Usuario autor) {
       usuarioRepository.findById(autor.getUsuarioId()).
               orElseThrow(()-> new NotFoundException("Usuario con el id "+autor.getUsuarioId() + " no encontrado"));
-      return publicacionRepository.findByAutor(autor);
+      return  publicacionRepository.findByAutor(autor);
     }
 
     @Override

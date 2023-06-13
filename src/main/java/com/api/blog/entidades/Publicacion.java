@@ -2,6 +2,7 @@
 package com.api.blog.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Access;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,8 +58,8 @@ public class Publicacion extends AuditModel {
    private Set<Comentario> comentarios = new HashSet<>();
    
    @ManyToOne
-   @JsonIgnore
    @JoinColumn(name = "usuario_id")
+   @JsonIgnore
    private Usuario autor;
    
    @OneToMany(mappedBy = "publicacion")
