@@ -54,7 +54,13 @@ public class UsuarioController {
     
     @DeleteMapping("/{usuarioId}")
     public ResponseEntity<?> eliminarUsuario(@PathVariable Long usuarioId) throws NotFoundException{
-        return ResponseEntity.ok(usuarioService.eliminarUsuario(usuarioId));
+        Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
+        if(usuario != null){
+            usuarioService.eliminarUsuario(usuarioId);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+        
     }
     
     

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,21 @@ public class PublicacionController {
         return null;
     }
     
+    @GetMapping("/usuario/{usuarioId}/{publicacionId}")
+    public ResponseEntity<Publicacion> obtenerPublicacion(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException{
+        Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
+        Set<Publicacion> publicacionesUsuario = usuario.getPublicaciones();
+        
+        for(Publicacion publicacion : publicacionesUsuario){
+            if(publicacion.getPublicacionId().equals(publicacionId)){
+                return ResponseEntity.ok(publicacion);
+            }
+        }
+        
+        return ResponseEntity.notFound().build();
+    
+    }
+    
     @PostMapping("/usuario/{usuarioId}")
     public ResponseEntity<Publicacion> guardarPublicacion(@Valid @RequestBody Publicacion publicacion, @PathVariable Long usuarioId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
@@ -49,6 +65,26 @@ public class PublicacionController {
         }else{
             return (ResponseEntity<Publicacion>) ResponseEntity.notFound();
         }
+    }
+    
+    @PutMapping("/usuario/{usuarioId}")
+    public ResponseEntity<Publicacion> actualizarPublicacion(@Valid @RequestBody Publicacion publicacion,
+                                                                                                       @PathVariable Long usuarioId ) throws NotFoundException{
+        
+        Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
+        Set<Publicacion> publicacionesUsuario = usuario.getPublicaciones();
+        
+        for(Publicacion p : publicacionesUsuario){
+            System.out.println(publicacion.getPublicacionId());
+            if(p.getPublicacionId().equals(publicacion.getPublicacionId())){
+                
+                Publicacion publicacionActualizada = publicacionService.actualizarPublicacion(publicacion);
+                return ResponseEntity.ok(publicacionActualizada);
+            }
+        }
+        
+        return ResponseEntity.notFound().build();
+        
     }
     
     @DeleteMapping("/usuario/{usuarioId}/{publicacionId}")
