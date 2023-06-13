@@ -27,12 +27,8 @@ public class UsuarioServiceImpl implements UsuarioService{
    @Override
     public Usuario guardarUsuario(Usuario usuarioRequest) {
         Usuario usuario = usuarioRepository.findByUsername(usuarioRequest.getUsername());
-        if(usuario == null){
-           usuarioRepository.save(usuarioRequest);
-        }else{
-            System.out.println("El usuario ya existe");
-        }
-           return null;
+        usuarioRepository.save(usuarioRequest);
+        return usuario;
     }
 
     @Override

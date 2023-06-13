@@ -54,5 +54,12 @@ public class PublicacionServiceimpl implements PublicacionService{
        publicacionRepository.delete(publicacion);
        return publicacion;
     }
+
+    @Override
+    public Publicacion obtenerPublicacion(Long id) throws com.api.blog.excepciones.NotFoundException {
+        Publicacion publicacion = publicacionRepository.findById(id).
+               orElseThrow(()-> new NotFoundException("Publicacion con el id "+id + " no encontrada"));
+        return publicacion;
+    }
     
 }
