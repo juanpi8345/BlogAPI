@@ -1,5 +1,6 @@
 package com.api.blog.entidades;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,14 +36,16 @@ public class Comentario extends AuditModel {
     private Long comentarioId;
     
     @Lob
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = false)
     private String descripcion;
     
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
     
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "publicacion_id")
     private Publicacion publicacion;
     

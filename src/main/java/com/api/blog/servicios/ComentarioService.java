@@ -13,7 +13,7 @@ public interface ComentarioService {
     public List<Comentario> obtenerComentariosDelUsuario(Usuario usuario);
     public List<Comentario> obtenerComentariosDePublicacion(Publicacion publicacion);
     public Comentario obtenerComentario(Long comentarioId) throws NotFoundException;
-    public Comentario guardarComentario(Comentario comentario);
+    public Comentario guardarComentario(Comentario comentario,Publicacion publicacion);
     public Comentario actualizarComentario(Comentario comentario) throws NotFoundException;
     public Comentario eliminarComentario(Long comentarioId) throws NotFoundException;
     

@@ -32,7 +32,10 @@ public class ComentarioServiceImpl implements ComentarioService {
     }
 
     @Override
-    public Comentario guardarComentario(Comentario comentario) {
+    public Comentario guardarComentario(Comentario comentario, Publicacion publicacion) {
+        publicacion.getComentarios().add(comentario);
+        comentario.setPublicacion(publicacion);
+        
         return comentarioRepository.save(comentario);
     }
 
