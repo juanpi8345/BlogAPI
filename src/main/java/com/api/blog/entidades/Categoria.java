@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,5 +34,5 @@ public class Categoria {
     private String nombre;
 
     @OneToMany(mappedBy = "categoria")
-    private Set<PublicacionCategoria> publicacionCategorias = new HashSet<>();
+     private Set<Publicacion> publicaciones;
 }

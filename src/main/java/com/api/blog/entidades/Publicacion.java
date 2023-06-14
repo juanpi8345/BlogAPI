@@ -62,8 +62,10 @@ public class Publicacion extends AuditModel {
    @JsonIgnore
    private Usuario autor;
    
-   @OneToMany(mappedBy = "publicacion")
-   private Set<PublicacionCategoria> publicacionCategorias = new HashSet<>();
+   @ManyToOne()
+   @JoinColumn(name = "categoria_id")
+   private Categoria categoria;
+   
    
 
   
