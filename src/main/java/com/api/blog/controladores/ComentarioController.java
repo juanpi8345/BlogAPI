@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,7 +30,7 @@ public class ComentarioController {
     @Autowired
     private UsuarioService usuarioService;
     
-    @PostMapping("/publicacion/{publicacionId}/{usuarioId}")
+    @PostMapping("/publicacion/{publicacionId}/usuario/{usuarioId}")
     public ResponseEntity<Comentario> crearComentario(@Valid @RequestBody Comentario comentario,
                                                                                         @PathVariable Long publicacionId,
                                                                                         @PathVariable Long usuarioId) throws NotFoundException{

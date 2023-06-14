@@ -1,9 +1,11 @@
 
 package com.api.blog.controladores;
 
+import com.api.blog.entidades.Categoria;
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
 import com.api.blog.excepciones.NotFoundException;
+import com.api.blog.servicios.CategoriaService;
 import com.api.blog.servicios.PublicacionService;
 import com.api.blog.servicios.UsuarioService;
 import jakarta.validation.Valid;
@@ -30,7 +32,9 @@ public class PublicacionController {
     @Autowired
     private UsuarioService usuarioService;
     
- 
+    @Autowired
+    private CategoriaService categoriaService;
+    
     @GetMapping("/")
     public ResponseEntity<List<Publicacion>> obtenerPublicaciones(){
         List<Publicacion> publicaciones =  publicacionService.obtenerPublicaciones();
@@ -49,7 +53,7 @@ public class PublicacionController {
         return ResponseEntity.notFound().build();
     }
     
-    @GetMapping("/usuario/{usuarioId}/{publicacionId}")
+    @GetMapping("/usuario/{usuarioId}/publicacion/{publicacionId}")
     public ResponseEntity<Publicacion> obtenerPublicacionDelUsuario(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
         Set<Publicacion> publicacionesUsuario = usuario.getPublicaciones();
@@ -64,11 +68,15 @@ public class PublicacionController {
     
     }
     
-    @PostMapping("/usuario/{usuarioId}")
-    public ResponseEntity<Publicacion> guardarPublicacion(@Valid @RequestBody Publicacion publicacion, @PathVariable Long usuarioId) throws NotFoundException{
+    @PostMapping("/usuario/{usuarioId}/categoria/{categoriaId}")
+    public ResponseEntity<Publicacion> guardarPublicacion(@Valid @RequestBody Publicacion publicacion, @PathVariable Long usuarioId,
+                                                                                                @PathVariable Long categoriaId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
-        if(usuario != null){
+        Categoria categoria = categoriaService.obtenerCategoria(categoriaId);
+        if(usuario != null && categoria != null){
                 publicacion.setAutor(usuario);
+                categoria.getPublicaciones().add(publicacion);
+                publicacion.setCategoria(categoria);
                 usuario.getPublicaciones().add(publicacion);
                 usuarioService.guardarUsuario(usuario);
                 return ResponseEntity.ok().build();
@@ -97,7 +105,7 @@ public class PublicacionController {
         
     }
     
-    @DeleteMapping("/usuario/{usuarioId}/{publicacionId}")
+    @DeleteMapping("/usuario/{usuarioId}/publicacion/{publicacionId}")
     public ResponseEntity<?> eliminarPublicacionDelUsuario(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException{
         Usuario usuario = usuarioService.obtenerUsuario(usuarioId);
         Set<Publicacion> publicacionesDelUsuario = usuario.getPublicaciones();
