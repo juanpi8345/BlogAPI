@@ -9,8 +9,10 @@ import com.api.blog.servicios.ComentarioService;
 import com.api.blog.servicios.PublicacionService;
 import com.api.blog.servicios.UsuarioService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +32,16 @@ public class ComentarioController {
     @Autowired
     private UsuarioService usuarioService;
     
+    @GetMapping("/publicacion/{publicacionId}")
+    public ResponseEntity<List<Comentario>> obtenerComentariosPorPublicacion(@PathVariable Long publicacionId) throws NotFoundException{
+        Publicacion publicacion = publicacionService.obtenerPublicacion(publicacionId);
+        if(publicacion != null){
+        return ResponseEntity.ok(comentarioService.obtenerComentariosDePublicacion(publicacion));
+        }
+        return ResponseEntity.notFound().build();
+    }
+    
+    
     @PostMapping("/publicacion/{publicacionId}/usuario/{usuarioId}")
     public ResponseEntity<Comentario> crearComentario(@Valid @RequestBody Comentario comentario,
                                                                                         @PathVariable Long publicacionId,
@@ -47,6 +59,6 @@ public class ComentarioController {
     
     }
     
-    //@PutMapping("/publicacion/{publicacionId}/{usuarioId}")
+  
     
 }

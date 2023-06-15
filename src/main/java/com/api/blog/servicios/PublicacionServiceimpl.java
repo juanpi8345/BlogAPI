@@ -56,7 +56,7 @@ public class PublicacionServiceimpl implements PublicacionService{
     }
 
     @Override
-    public Publicacion obtenerPublicacion(Long id) throws com.api.blog.excepciones.NotFoundException {
+    public Publicacion obtenerPublicacion(Long id) throws NotFoundException {
         Publicacion publicacion = publicacionRepository.findById(id).
                orElseThrow(()-> new NotFoundException("Publicacion con el id "+id + " no encontrada"));
         return publicacion;

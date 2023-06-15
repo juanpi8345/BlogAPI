@@ -75,7 +75,7 @@ public class PublicacionController {
         Categoria categoria = categoriaService.obtenerCategoria(categoriaId);
         if(usuario != null && categoria != null){
                 publicacion.setAutor(usuario);
-                categoria.getPublicaciones().add(publicacion);
+                //categoria.getPublicaciones().add(publicacion);
                 publicacion.setCategoria(categoria);
                 usuario.getPublicaciones().add(publicacion);
                 usuarioService.guardarUsuario(usuario);
