@@ -11,10 +11,10 @@ public interface PublicacionService {
     
     public List<Publicacion> obtenerPublicaciones();
     public Publicacion obtenerPublicacion(Long id) throws NotFoundException;
-    public List<Publicacion> obtenerPublicacionesPorAutor(Usuario autor);
+    public List<Publicacion> obtenerPublicacionesPorAutor(Usuario autor)  throws NotFoundException;
     public Publicacion guardarPublicacion(Publicacion publicacion);
-    public Publicacion actualizarPublicacion(Publicacion publicacion);
-    public Publicacion eliminarPublicacion(Long publicacionId);
+    public Publicacion actualizarPublicacion(Publicacion publicacion) throws NotFoundException;
+    public Publicacion eliminarPublicacion(Long publicacionId) throws NotFoundException;
     
     
 }

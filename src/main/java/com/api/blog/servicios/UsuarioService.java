@@ -9,6 +9,7 @@ import java.util.List;
 public interface UsuarioService {
     
     public Usuario obtenerUsuario(Long idUsuario) throws NotFoundException;
+    public Usuario obtenerUsuarioPorNombre(String username);
     public Usuario guardarUsuario(Usuario usuario);
     public List<Usuario> obtenerUsuarios();
     public List<Usuario> obtenerUsuariosPorRol(Rol rol);

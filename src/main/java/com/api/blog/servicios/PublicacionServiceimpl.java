@@ -3,9 +3,9 @@ package com.api.blog.servicios;
 
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
+import com.api.blog.excepciones.NotFoundException;
 import com.api.blog.repositorios.PublicacionRepository;
 import com.api.blog.repositorios.UsuarioRepository;
-import jakarta.ws.rs.NotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class PublicacionServiceimpl implements PublicacionService{
     }
 
     @Override
-    public List<Publicacion> obtenerPublicacionesPorAutor(Usuario autor) {
+    public List<Publicacion> obtenerPublicacionesPorAutor(Usuario autor) throws NotFoundException {
       usuarioRepository.findById(autor.getUsuarioId()).
               orElseThrow(()-> new NotFoundException("Usuario con el id "+autor.getUsuarioId() + " no encontrado"));
       return  publicacionRepository.findByAutor(autor);
@@ -36,8 +36,9 @@ public class PublicacionServiceimpl implements PublicacionService{
        return publicacionRepository.save(publicacion);
     }
 
+
     @Override
-    public Publicacion actualizarPublicacion(Publicacion publicacionRequest) {
+    public Publicacion actualizarPublicacion(Publicacion publicacionRequest)  throws NotFoundException {
        return publicacionRepository.findById(publicacionRequest.getPublicacionId()).map(publicacion->{
            publicacion.setTitulo(publicacionRequest.getTitulo());
            publicacion.setFechaActualizacion(publicacionRequest.getFechaActualizacion());
@@ -48,7 +49,7 @@ public class PublicacionServiceimpl implements PublicacionService{
     }
 
     @Override
-    public Publicacion eliminarPublicacion(Long publicacionId) {
+    public Publicacion eliminarPublicacion(Long publicacionId) throws NotFoundException {
        Publicacion publicacion = publicacionRepository.findById(publicacionId).
                orElseThrow(()-> new NotFoundException("Publicacion con el id "+publicacionId + " no encontrada"));
        publicacionRepository.delete(publicacion);

@@ -7,6 +7,7 @@ import com.api.blog.servicios.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,9 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+     private BCryptPasswordEncoder bCryptPasswordEncoder;
     
     @Autowired
     private RolService rolService;
@@ -39,6 +43,7 @@ public class UsuarioController {
             Rol rol = rolService.obtenerRolPorNombre("usuario");
             if(rol != null){
                 usuario.setRol(rol);
+                usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
                 usuarioService.guardarUsuario(usuario);
                 return ResponseEntity.ok(usuario);
             }else{

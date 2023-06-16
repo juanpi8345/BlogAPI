@@ -21,7 +21,7 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Override
     public Usuario obtenerUsuario(Long idUsuario)  throws  NotFoundException {
         return usuarioRepository.findById(idUsuario).
-                orElseThrow(()->new NotFoundException("Usuario con el id "+idUsuario + "no encontrado"));
+                orElseThrow(()->new NotFoundException("Usuario con el id "+idUsuario + " no encontrado"));
     }
     
    @Override
@@ -50,6 +50,12 @@ public class UsuarioServiceImpl implements UsuarioService{
         }else{
             throw new  NotFoundException("Usuario con el id "+idUsuario + " no encontrado");
         } 
+    }
+
+    @Override
+    public Usuario obtenerUsuarioPorNombre(String username) {
+        return usuarioRepository.findByUsername(username);
+                
     }
 
   

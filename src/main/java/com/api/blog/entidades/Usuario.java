@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,24 +11,28 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     public Usuario() {
     }
 
-    public Usuario(Long usuarioId, String username, String clave, Rol rol) {
+    public Usuario(Long usuarioId, String username, String password, Rol rol) {
         this.usuarioId = usuarioId;
         this.username = username;
-        this.clave = clave;
+        this.password = password;
         this.rol = rol;
     }
 
@@ -42,10 +45,10 @@ public class Usuario {
     private String username;
 
     @Column(nullable = false)
-    private String clave;
+    private String password;
 
     @Column(nullable = false)
-    private boolean habilitado = true;
+    private boolean enabled = true;
 
    @ManyToOne()
    @JoinColumn(name = "rol_id")
@@ -57,5 +60,29 @@ public class Usuario {
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private Set<Publicacion> publicaciones = new HashSet<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+       Set<Authority> autoridades = new HashSet<>();
+       autoridades.add(new Authority(rol.getNombre()));
+       return autoridades;
+       
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+       return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+      return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+       return true;
+    }
+
 
 }
