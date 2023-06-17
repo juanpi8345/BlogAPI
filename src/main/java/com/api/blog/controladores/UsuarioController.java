@@ -5,9 +5,11 @@ import com.api.blog.excepciones.NotFoundException;
 import com.api.blog.servicios.RolService;
 import com.api.blog.servicios.UsuarioService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/usuarios")
+@CrossOrigin("*")
 public class UsuarioController {
     
     @Autowired
@@ -28,6 +31,11 @@ public class UsuarioController {
     
     @Autowired
     private RolService rolService;
+    
+    @GetMapping("/")
+    public ResponseEntity<List<Usuario>> obtenerUsuarios(){
+        return ResponseEntity.ok(usuarioService.obtenerUsuarios());
+    }
     
     @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Long usuarioId) throws NotFoundException{
