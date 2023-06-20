@@ -1,12 +1,9 @@
-
 package com.api.blog.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Access;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,16 +11,24 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Getter @Setter
+@Getter
+@Setter
 @Table(name = "publicaciones")
-public class Publicacion extends AuditModel {
+public class Publicacion {
 
     public Publicacion() {
     }
@@ -35,38 +40,52 @@ public class Publicacion extends AuditModel {
         this.contenido = contenido;
         this.autor = autor;
     }
-    
-     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "publicacion_id")
     private Long publicacionId;
-    
+
     @Column(nullable = false)
     private String titulo;
-    
+
     @Column(nullable = false)
     @Lob
     private String descripcion;
-    
-   @Column(nullable = false)
+
+    @Column(nullable = false)
     @Lob
     private String contenido;
-   
-   @OneToMany(mappedBy="publicacion",cascade = CascadeType.ALL)
-   private Set<Comentario> comentarios = new HashSet<>();
-   
-   @ManyToOne
-   @JoinColumn(name = "usuario_id")
-   @JsonIgnore
-   private Usuario autor;
-   
-   @ManyToOne()
-   @JoinColumn(name = "categoria_id")
-   private Categoria categoria;
-   
-   
 
-  
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_creacion")
+    private Date fechaCreacion;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "fecha_actualizacion")
+    private Date fechaActualizacion;
+
+    @OneToMany(mappedBy = "publicacion", cascade = CascadeType.ALL)
+    private Set<Comentario> comentarios = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    @JsonIgnore
+    private Usuario autor;
+
+    @ManyToOne()
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+
+    @PrePersist
+    protected void onCreate() {
+        fechaCreacion = new Date();
+        fechaActualizacion = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        fechaActualizacion = new Date();
+    }
+
 }

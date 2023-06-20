@@ -1,9 +1,11 @@
 
 package com.api.blog.servicios;
 
+import com.api.blog.entidades.Categoria;
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
 import com.api.blog.excepciones.NotFoundException;
+import com.api.blog.repositorios.CategoriaRepository;
 import com.api.blog.repositorios.PublicacionRepository;
 import com.api.blog.repositorios.UsuarioRepository;
 import java.util.List;
@@ -18,6 +20,9 @@ public class PublicacionServiceimpl implements PublicacionService{
     
     @Autowired
     private PublicacionRepository publicacionRepository;
+    
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @Override
     public List<Publicacion> obtenerPublicaciones() {
@@ -61,6 +66,13 @@ public class PublicacionServiceimpl implements PublicacionService{
         Publicacion publicacion = publicacionRepository.findById(id).
                orElseThrow(()-> new NotFoundException("Publicacion con el id "+id + " no encontrada"));
         return publicacion;
+    }
+
+    @Override
+    public List<Publicacion> obtenerPublicacionesPorCategoria(Categoria categoriaRequest) throws NotFoundException {
+       Categoria categoria = categoriaRepository.findById(categoriaRequest.getCategoriaId()).
+               orElseThrow(()-> new NotFoundException("Categoria con el id "+categoriaRequest.getCategoriaId() + " no encontrada"));
+       return publicacionRepository.findAllByCategoria(categoria);
     }
     
 }

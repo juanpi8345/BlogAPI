@@ -1,6 +1,7 @@
 
 package com.api.blog.repositorios;
 
+import com.api.blog.entidades.Categoria;
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
 import java.util.List;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface PublicacionRepository extends JpaRepository<Publicacion, Long>{
     
     public List<Publicacion> findByAutor(Usuario autor);
-    
-    
-  
+    public List<Publicacion> findAllByCategoria(Categoria categoria);
+   
 }

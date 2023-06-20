@@ -49,9 +49,9 @@ public class UsuarioController {
     @PostMapping("/")
     public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody Usuario usuario){
             Rol rol = rolService.obtenerRolPorNombre("usuario");
+            usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
             if(rol != null){
                 usuario.setRol(rol);
-                usuario.setPassword(bCryptPasswordEncoder.encode(usuario.getPassword()));
                 usuarioService.guardarUsuario(usuario);
                 return ResponseEntity.ok(usuario);
             }else{

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @Table(name = "comentarios")
-public class Comentario extends AuditModel {
+public class Comentario{
 
     public Comentario() {
     }
@@ -27,9 +27,7 @@ public class Comentario extends AuditModel {
         this.usuario = usuario;
         this.publicacion = publicacion;
     }
-    
-    private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "comentario_id")

@@ -43,7 +43,6 @@ public class ComentarioServiceImpl implements ComentarioService {
     public Comentario actualizarComentario(Comentario comentarioRequest) throws NotFoundException {
         return comentarioRepository.findById(comentarioRequest.getComentarioId()).map(comentario -> {
             comentario.setDescripcion(comentarioRequest.getDescripcion());
-            comentario.setFechaActualizacion(comentarioRequest.getFechaActualizacion());
             return comentarioRepository.save(comentario);
         }).orElseThrow(() -> new NotFoundException("Comentario con el id " + comentarioRequest.getComentarioId() + " no encontrado"));
     }
