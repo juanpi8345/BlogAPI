@@ -45,6 +45,11 @@ public class PublicacionController {
         }
         return ResponseEntity.notFound().build();
     }
+    
+    @GetMapping("/{publicacionId}")
+    public ResponseEntity<Publicacion> obtenerPublicacionPorId(@PathVariable Long publicacionId) throws NotFoundException{
+        return ResponseEntity.ok(publicacionService.obtenerPublicacion(publicacionId));
+    }
 
     @GetMapping("/categoria/{categoriaId}")
     public ResponseEntity<List<Publicacion>> obtenerPublicacionesPorCategoria(@PathVariable Long categoriaId) throws NotFoundException {
