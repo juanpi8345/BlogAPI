@@ -1,10 +1,12 @@
 package com.api.blog.servicios;
 
 import com.api.blog.entidades.Comentario;
+import com.api.blog.entidades.ComentarioDTO;
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
 import com.api.blog.excepciones.NotFoundException;
 import com.api.blog.repositorios.ComentarioRepository;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,11 +50,22 @@ public class ComentarioServiceImpl implements ComentarioService {
     }
 
     @Override
-    public Comentario eliminarComentario(Long comentarioId)throws NotFoundException {
+    public Comentario eliminarComentario(Long comentarioId) throws NotFoundException {
        Comentario comentario = comentarioRepository.findById(comentarioId).
                orElseThrow(() -> new NotFoundException("Comentario con el id " + comentarioId + " no encontrado"));
        comentarioRepository.delete(comentario);
        return comentario;
+    }
+
+    @Override
+    public List<ComentarioDTO> obtenerComentariosDePublicacionConAutor(Publicacion publicacion)  throws NotFoundException{
+        List<ComentarioDTO> comentariosConAutor = new ArrayList();
+        List<Comentario> comentarios =  comentarioRepository.findAllByPublicacion(publicacion);
+        for(Comentario c: comentarios){
+            ComentarioDTO comentarioDto = new ComentarioDTO(c.getUsuario().getUsername(),c.getDescripcion());
+            comentariosConAutor.add(comentarioDto);
+        }
+        return comentariosConAutor;
     }
 
 }

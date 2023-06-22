@@ -1,9 +1,11 @@
 package com.api.blog.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -57,7 +59,7 @@ public class Usuario implements UserDetails {
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Comentario> comentarios = new HashSet<>();
-
+    
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
     private Set<Publicacion> publicaciones = new HashSet<>();
 

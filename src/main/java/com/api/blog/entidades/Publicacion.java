@@ -1,6 +1,7 @@
 package com.api.blog.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -70,7 +71,7 @@ public class Publicacion {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonIgnore
+   @JsonIgnore
     private Usuario autor;
 
     @ManyToOne()

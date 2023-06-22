@@ -4,6 +4,7 @@ package com.api.blog.controladores;
 import com.api.blog.entidades.Comentario;
 import com.api.blog.entidades.Publicacion;
 import com.api.blog.entidades.Usuario;
+import com.api.blog.entidades.ComentarioDTO;
 import com.api.blog.excepciones.NotFoundException;
 import com.api.blog.servicios.ComentarioService;
 import com.api.blog.servicios.PublicacionService;
@@ -35,15 +36,25 @@ public class ComentarioController {
     @Autowired
     private UsuarioService usuarioService;
     
-    @GetMapping("/publicacion/{publicacionId}")
+  /*  @GetMapping("/publicacion/{publicacionId}")
     public ResponseEntity<List<Comentario>> obtenerComentariosPorPublicacion(@PathVariable Long publicacionId) throws NotFoundException{
         Publicacion publicacion = publicacionService.obtenerPublicacion(publicacionId);
         if(publicacion != null){
-        return ResponseEntity.ok(comentarioService.obtenerComentariosDePublicacion(publicacion));
+         List <Comentario> comentarios = comentarioService.obtenerComentariosDePublicacion(publicacion);
+        return ResponseEntity.ok(comentarios);
+        }
+        return ResponseEntity.notFound().build();
+    }*/
+    
+    @GetMapping("/publicacion/{publicacionId}")
+    public ResponseEntity<List<ComentarioDTO>> obtenerComentariosConAutor(@PathVariable Long publicacionId) throws NotFoundException{
+        Publicacion publicacion = publicacionService.obtenerPublicacion(publicacionId);
+        if(publicacion != null){
+         List <ComentarioDTO> comentarios = comentarioService.obtenerComentariosDePublicacionConAutor(publicacion);
+        return ResponseEntity.ok(comentarios);
         }
         return ResponseEntity.notFound().build();
     }
-    
     
     @PostMapping("/publicacion/{publicacionId}/usuario/{usuarioId}")
     public ResponseEntity<Comentario> crearComentario(@Valid @RequestBody Comentario comentario,
