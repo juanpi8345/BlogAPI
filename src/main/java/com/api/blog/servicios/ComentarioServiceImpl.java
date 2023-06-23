@@ -62,7 +62,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         List<ComentarioDTO> comentariosConAutor = new ArrayList();
         List<Comentario> comentarios =  comentarioRepository.findAllByPublicacion(publicacion);
         for(Comentario c: comentarios){
-            ComentarioDTO comentarioDto = new ComentarioDTO(c.getUsuario().getUsername(),c.getDescripcion());
+            ComentarioDTO comentarioDto = new ComentarioDTO(c.getComentarioId(),c.getUsuario().getUsername(),c.getUsuario().getAuthorities(),c.getDescripcion());
             comentariosConAutor.add(comentarioDto);
         }
         return comentariosConAutor;
