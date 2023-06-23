@@ -4,12 +4,12 @@ package com.api.blog.entidades;
 public class ComentarioDTO {
     
     private String autor;
-    private String comentario;
+    private String descripcion;
 
     // Constructor
-    public ComentarioDTO(String autor, String comentario) {
+    public ComentarioDTO(String autor, String descripcion) {
         this.autor = autor;
-        this.comentario = comentario;
+        this.descripcion = descripcion;
     }
 
     public String getAutor() {
@@ -20,12 +20,12 @@ public class ComentarioDTO {
         this.autor = autor;
     }
 
-    public String getComentario() {
-        return comentario;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setComentario(String comentario) {
-        this.comentario = comentario;
+    public void setComentario(String descripcion) {
+        this.descripcion = descripcion;
     }
     
 }
