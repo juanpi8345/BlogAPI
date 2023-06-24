@@ -71,7 +71,7 @@ public class Publicacion {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-   @JsonIgnore
+
     private Usuario autor;
 
     @ManyToOne()

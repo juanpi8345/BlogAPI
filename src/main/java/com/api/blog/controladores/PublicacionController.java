@@ -118,6 +118,13 @@ public class PublicacionController {
         return ResponseEntity.notFound().build();
 
     }
+    
+    @DeleteMapping("/publicacion/{publicacionId}")
+    public ResponseEntity<?> eliminarPublicacion(@PathVariable Long publicacionId) throws NotFoundException{
+        Publicacion publicacion = publicacionService.obtenerPublicacion(publicacionId);
+        publicacionService.eliminarPublicacion(publicacionId);
+        return ResponseEntity.ok(publicacion);
+    }
 
     @DeleteMapping("/usuario/{usuarioId}/publicacion/{publicacionId}")
     public ResponseEntity<?> eliminarPublicacionDelUsuario(@PathVariable Long usuarioId, @PathVariable Long publicacionId) throws NotFoundException {

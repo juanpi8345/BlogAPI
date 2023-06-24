@@ -58,9 +58,11 @@ public class Usuario implements UserDetails {
     private Rol rol;
 
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Comentario> comentarios = new HashSet<>();
     
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Publicacion> publicaciones = new HashSet<>();
 
     @Override
